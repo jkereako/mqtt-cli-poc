@@ -2,7 +2,7 @@
 //  MQTTCLIPOC.swift
 //
 //
-//  Created by Jeffrey Kereakoglow on 3/12/24.
+//  Created by Jeff Kereakoglow on 3/12/24.
 //
 
 import Foundation
