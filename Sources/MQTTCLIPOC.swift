@@ -23,10 +23,24 @@ struct MQTTCLIPOC {
 }
 """
         let topic = "home/kitchen/light"
-        await connection.publish(topic: topic, message: payload)
+        await connection.publish(message: payload, topic: topic)
         
-        // Suspsends here and listens for incoming messages. To break this, you'll
-        // need to call `connection.shutdown()` (I think)
-        await connection.subscribe(topic: topic)
+        var count = 0
+        connection.messageHandler.messageReceived = { msg in
+            count += 1
+            print("\(count): \(msg)")
+            
+            // Shutdown the client after 5 messages
+            if count >= 5 {
+                Task {
+                    await connection.shutdown()
+                }
+            }
+        }
+        
+        // Suspsends here and listens for incoming messages.
+        await connection.subscribe(to: [topic])
+        
+        print("Done!")
     }
 }

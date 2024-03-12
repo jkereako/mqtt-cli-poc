@@ -11,8 +11,18 @@ same broker as this program and publish a message to the same topic. You will
 see the message printed to the console.
 
 ## Technical details
-This MQTT implementation is built on top of [MQTT NIO][4]. It provides a simple
-interface to subscribe and publish to topics.
+This MQTT implementation is built on top of [MQTT NIO][4].
+
+A major point to note is that the program suspends on the line
+
+```swift
+await connection.subscribe(topic: topic)
+```
+Here it waits for incoming messages on the topic. To continue execution, you
+must call
+```swift
+await connection.shutdown()
+```
 
 ## Credit
 The class MQTTClientConnection was lifted from the project [EmCuTeeTee][1]. It
